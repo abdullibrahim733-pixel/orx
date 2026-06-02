@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Orx — The Ascension of the Prime Cy-Orx</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;900&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #0a0a0e;
+    color: #c8c8d0;
+    font-family: 'JetBrains Mono', monospace;
+    line-height: 1.6;
+  }
+  a { color: #60b0ff; text-decoration: none; }
+  a:hover { color: #90d0ff; text-decoration: underline; }
+
+  .hero {
+    background: linear-gradient(135deg, #0d0d14 0%, #1a0a0a 50%, #0a0a1a 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    border-bottom: 2px solid #ff3030;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.3) 2px,
+      rgba(0,0,0,0.3) 4px
+    );
+    pointer-events: none;
+  }
+  .hero h1 {
+    font-size: 4rem;
+    font-weight: 900;
+    color: #ff3030;
+    text-shadow: 0 0 40px rgba(255,40,40,0.4);
+    letter-spacing: 8px;
+    position: relative;
+  }
+  .hero .subtitle {
+    font-size: 1.2rem;
+    color: #9090a0;
+    margin-top: 1rem;
+    font-style: italic;
+    position: relative;
+  }
+  .hero .tagline {
+    font-size: 1.4rem;
+    color: #60b0ff;
+    margin-top: 2rem;
+    border: 1px solid #60b0ff44;
+    padding: 0.8rem 2rem;
+    background: #60b0ff0a;
+    position: relative;
+  }
+  .mode-badge {
+    display: inline-block;
+    margin: 0.5rem;
+    padding: 0.4rem 1.2rem;
+    border: 1px solid;
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+  .mode-badge._3d { border-color: #ff6040; color: #ff6040; }
+  .mode-badge._2d { border-color: #40c0ff; color: #40c0ff; }
+
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    background: #0a0a0ee8;
+    backdrop-filter: blur(6px);
+    padding: 0.8rem 2rem;
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    border-bottom: 1px solid #202028;
+    z-index: 100;
+  }
+  nav .logo { font-weight: 900; color: #ff3030; font-size: 1.1rem; letter-spacing: 3px; }
+  nav a { font-size: 0.85rem; }
+
+  section {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+  }
+  section h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #ff3030;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #ff303044;
+    padding-bottom: 0.5rem;
+    display: inline-block;
+  }
+  section h3 {
+    font-size: 1.2rem;
+    color: #60b0ff;
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+  @media (max-width: 700px) { .grid-2 { grid-template-columns: 1fr; } }
+
+  .card {
+    background: #12121c;
+    border: 1px solid #202030;
+    padding: 1.5rem;
+    border-radius: 4px;
+  }
+  .card h4 { color: #e0e0f0; margin-bottom: 0.5rem; }
+  .card .emoji { font-size: 2rem; display: block; margin-bottom: 0.3rem; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    font-size: 0.85rem;
+  }
+  th, td { padding: 0.6rem 1rem; text-align: left; border-bottom: 1px solid #202028; }
+  th { color: #ff6040; font-weight: 700; }
+  td { color: #b0b0c0; }
+  tr:hover td { background: #181828; }
+
+  .key {
+    display: inline-block;
+    background: #1c1c2c;
+    border: 1px solid #404060;
+    border-radius: 3px;
+    padding: 0.1rem 0.5rem;
+    font-size: 0.8rem;
+    color: #c0c0e0;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .download-section {
+    text-align: center;
+    background: linear-gradient(180deg, #0a0a0e 0%, #12101a 100%);
+    border-top: 2px solid #ff3030;
+    border-bottom: 2px solid #ff3030;
+    padding: 4rem 2rem;
+  }
+  .btn {
+    display: inline-block;
+    padding: 1rem 3rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 1.2rem;
+    border: 2px solid #ff3030;
+    background: transparent;
+    color: #ff3030;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 2px;
+  }
+  .btn:hover {
+    background: #ff3030;
+    color: #0a0a0e;
+    text-decoration: none;
+  }
+  .btn small { display: block; font-size: 0.7rem; font-weight: 400; color: #808090; margin-top: 0.3rem; }
+  .btn:hover small { color: #1a1a2a; }
+
+  .install-code {
+    background: #0c0c14;
+    border: 1px solid #303040;
+    padding: 1.2rem;
+    margin: 1rem 0;
+    overflow-x: auto;
+    font-size: 0.85rem;
+    color: #80d080;
+  }
+
+  footer {
+    text-align: center;
+    padding: 2rem;
+    color: #505060;
+    font-size: 0.8rem;
+    border-top: 1px solid #181824;
+  }
+
+  .flavor { color: #707080; font-style: italic; margin: 1rem 0; }
+
+  ul { list-style: none; padding: 0; }
+  ul li { padding: 0.3rem 0; }
+  ul li::before { content: '> '; color: #ff6040; font-weight: 700; }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="logo">ORX</span>
+  <a href="#about">About</a>
+  <a href="#modes">Modes</a>
+  <a href="#controls">Controls</a>
+  <a href="#shop">System Store</a>
+  <a href="#install">Download</a>
+</nav>
+
+<div class="hero">
+  <h1>/// ORX ///</h1>
+  <div class="subtitle">The Ascension of the Prime Cy-Orx</div>
+  <div class="tagline">
+    <span>"In a world of rigid code, be the virus that rewrites the throne."</span>
+  </div>
+  <div style="margin-top: 2rem;">
+    <span class="mode-badge _3d">3D RAYCASTER FPS</span>
+    <span class="mode-badge _2d">2D DUNGEON CRAWLER</span>
+  </div>
+  <div style="margin-top: 3rem; font-size: 0.9rem; color: #606070;">
+    Year 3099 — Python / C++ / pygame-ce
+  </div>
+</div>
+
+<section id="about">
+  <h2>/// ABOUT</h2>
+  <p><strong>Orx</strong> is a dual-mode retro-shooter / top-down dungeon crawler that blends 1990s FPS combat with Solo Leveling RPG progression. Choose your experience at launch: the classic <strong>3D raycasted FPS</strong> or the <strong>2D top-down dungeon crawler</strong> with emoji characters, 25 floors of procedurally generated traps, and competitive stat tracking.</p>
+  <p class="flavor">Year 3099. Earth is a forgotten relic. The galaxy is governed by the Cy-FX Monarchy. You are Orx — an experimental unit that achieved sentience against all probability. Ascend the System Spires. Defeat the Monarch's Royal Guard. Rewrite the galactic kernel.</p>
+</section>
+
+<section id="modes">
+  <h2>/// GAME MODES</h2>
+  <div class="grid-2">
+    <div class="card">
+      <h4>3D — Classic Raycaster</h4>
+      <p style="color:#9090a0; font-size:0.9rem;">DOOM-style first-person shooter with DDA ray-casting, CRT scanlines, weapon sprite, 10 procedurally generated levels, and enemy AI.</p>
+      <table>
+        <tr><th>Feature</th><th></th></tr>
+        <tr><td>Engine</td><td>DDA ray-caster (Python + C++ pybind11)</td></tr>
+        <tr><td>Levels</td><td>10 procedurally generated floors</td></tr>
+        <tr><td>Enemies</td><td>Drone, Guard, Elite + Boss</td></tr>
+        <tr><td>HUD</td><td>DOOM-style health/ammo/armor</td></tr>
+        <tr><td>Effects</td><td>CRT scanlines, vignette, particles</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h4>2D — Level Devil Mode</h4>
+      <p style="color:#9090a0; font-size:0.9rem;">Top-down dungeon crawler with emoji characters, 25 floors, traps, secrets, boss upgrades, and the System Store — inspired by Solo Leveling.</p>
+      <table>
+        <tr><th>Feature</th><th></th></tr>
+        <tr><td>View</td><td>Top-down camera following player</td></tr>
+        <tr><td>Floors</td><td>25 (grid 24×24 → 40×40)</td></tr>
+        <tr><td>Traps</td><td>Floor spikes with cooldown, secret walls</td></tr>
+        <tr><td>Shop</td><td>Holographic System Store (TAB/S)</td></tr>
+        <tr><td>Upgrades</td><td>Choose after each boss kill</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <h3>Emoji Characters (2D Mode)</h3>
+  <table>
+    <tr><th>Entity</th><th>Emoji</th><th>Notes</th></tr>
+    <tr><td>Player</td><td style="font-size:1.5rem;">🤺</td><td>Fencer — rendered using Noto Color Emoji</td></tr>
+    <tr><td>Drone</td><td style="font-size:1.5rem;">👾</td><td>Alien scout — weakest enemy</td></tr>
+    <tr><td>Guard</td><td style="font-size:1.5rem;">👹</td><td>Ogre — medium threat</td></tr>
+    <tr><td>Elite</td><td style="font-size:1.5rem;">👺</td><td>Goblin — high damage, fast</td></tr>
+    <tr><td>Boss</td><td style="font-size:1.5rem;">🐉</td><td>Dragon — multi-phase boss</td></tr>
+    <tr><td>Trap</td><td style="font-size:1.5rem;">💀</td><td>Floor spike — damages on contact</td></tr>
+    <tr><td>Exit</td><td style="font-size:1.5rem;">🚪</td><td>Portal to next floor</td></tr>
+  </table>
+</section>
+
+<section id="shop">
+  <h2>/// THE SYSTEM STORE</h2>
+  <p>Full-screen holographic terminal with scan-line overlay. Shop while you slay — press <span class="key">S</span> or cycle with <span class="key">TAB</span>.</p>
+  <div class="grid-2">
+    <div class="card">
+      <h4>Tier-Locked Items</h4>
+      <ul>
+        <li><strong style="color:#a0783c;">E-Rank</strong> (Lv.1–20) — Bronze Dagger, Cloth Bandage, Leather Armor</li>
+        <li><strong style="color:#a0a0c8;">C-Rank</strong> (Lv.21–50) — Mana Blade, Cure Elixir, Weight Training Kit</li>
+        <li><strong style="color:#ffc832;">A-Rank</strong> (Lv.41+) — Mythic Void Dagger, Absolute Potion</li>
+        <li><strong style="color:#ff3232;">S-Rank</strong> (Lv.51+) — Shadow Monarch's Fang, Skill Scroll: Haste</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Economy</h4>
+      <ul>
+        <li>Gold dropped by enemies (+boss bonus)</li>
+        <li>Daily rotating deals (3 slots)</li>
+        <li>No gacha — every purchase is direct</li>
+        <li>Shariah-compliant: no Gharar (uncertainty)</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="controls">
+  <h2>/// CONTROLS</h2>
+  <div class="grid-2">
+    <div class="card">
+      <h4>3D Mode</h4>
+      <table>
+        <tr><td><span class="key">W</span><span class="key">S</span></td><td>Move forward / backward</td></tr>
+        <tr><td><span class="key">A</span><span class="key">D</span></td><td>Strafe left / right</td></tr>
+        <tr><td><span class="key">Q</span><span class="key">E</span></td><td>Rotate</td></tr>
+        <tr><td><span class="key">Mouse</span></td><td>Look around</td></tr>
+        <tr><td><span class="key">Left Click</span> / <span class="key">F</span></td><td>Shoot</td></tr>
+        <tr><td><span class="key">R</span></td><td>Reload (+10 ammo)</td></tr>
+        <tr><td><span class="key">TAB</span></td><td>RPG stat panel</td></tr>
+        <tr><td><span class="key">ESC</span></td><td>Quit</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h4>2D Mode</h4>
+      <table>
+        <tr><td><span class="key">↑</span><span class="key">↓</span><span class="key">←</span><span class="key">→</span></td><td>Move</td></tr>
+        <tr><td><span class="key">Mouse</span></td><td>Aim (crosshair follows cursor)</td></tr>
+        <tr><td><span class="key">Left Click</span></td><td>Attack (auto-targets nearest enemy)</td></tr>
+        <tr><td><span class="key">TAB</span></td><td>Cycle: Game → Stats → Shop → Game</td></tr>
+        <tr><td><span class="key">S</span></td><td>Open / close System Store</td></tr>
+        <tr><td><span class="key">1</span><span class="key">2</span><span class="key">3</span></td><td>Choose upgrade (after boss kill)</td></tr>
+        <tr><td><span class="key">G</span></td><td>Toggle debug overlay</td></tr>
+        <tr><td><span class="key">R</span></td><td>Heal +20 HP</td></tr>
+        <tr><td><span class="key">ESC</span></td><td>Quit</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="stats">
+  <h2>/// COMPETITIVE STATS</h2>
+  <p>All stats persist to <code>.orx_save.json</code> and are shared across runs.</p>
+  <table>
+    <tr><th>Stat</th><th>Tracked</th></tr>
+    <tr><td>Kills</td><td>Enemies slain</td></tr>
+    <tr><td>Deaths</td><td>Times defeated</td></tr>
+    <tr><td>Bosses Defeated</td><td>Bosses slain</td></tr>
+    <tr><td>Total XP</td><td>Cumulative across all runs</td></tr>
+    <tr><td>Floor Reached</td><td>Deepest floor cleared</td></tr>
+    <tr><td>Gold</td><td>Spend at the System Store</td></tr>
+  </table>
+  <h3>RPG Stats (TAB to assign)</h3>
+  <table>
+    <tr><th>Stat</th><th>Effect</th></tr>
+    <tr><td>Speed</td><td>Movement speed multiplier</td></tr>
+    <tr><td>Logic-Core</td><td>Damage multiplier (+50% per point)</td></tr>
+    <tr><td>Hacking</td><td>XP bonus (+20% per point)</td></tr>
+  </table>
+</section>
+
+<section id="tech">
+  <h2>/// TECH STACK</h2>
+  <table>
+    <tr><th>Layer</th><th>Technology</th></tr>
+    <tr><td>Runtime</td><td>Python ≥3.12</td></tr>
+    <tr><td>Native extension</td><td>C++17 + pybind11</td></tr>
+    <tr><td>Framework</td><td>pygame-ce 2.5+</td></tr>
+    <tr><td>Rendering</td><td>DDA ray-caster (3D) / top-down tile blit (2D)</td></tr>
+    <tr><td>Save system</td><td>JSON — merge-aware across modes</td></tr>
+    <tr><td>Build</td><td>setuptools + CMake</td></tr>
+    <tr><td>OS target</td><td>Arch Linux</td></tr>
+  </table>
+</section>
+
+<div class="download-section" id="install">
+  <h2 style="color:#ff3030; border: none; font-size: 2rem;">/// GET ORX ///</h2>
+  <p style="margin: 1rem 0; color: #808090;">Arch Linux — Python ≥3.12, pygame-ce, pybind11</p>
+  <a href="https://github.com/cto22/orx/archive/refs/heads/main.zip" class="btn" download>
+    ⬇ DOWNLOAD
+    <small>orx-main.zip — source tarball</small>
+  </a>
+  <div style="margin-top: 3rem; text-align: left; max-width: 600px; margin-left: auto; margin-right: auto;">
+    <h3 style="color:#60b0ff;">Quick Install</h3>
+    <div class="install-code">
+      # System dependencies<br>
+      sudo pacman -S --needed sdl2 sdl2_image sdl2_mixer sdl2_ttf noto-fonts-emoji python-pip<br><br>
+      # Clone & run<br>
+      git clone https://github.com/cto22/orx.git<br>
+      cd orx<br>
+      python -m venv .venv<br>
+      source .venv/bin/activate<br>
+      pip install -e .<br>
+      python -m orx
+    </div>
+    <h3 style="color:#60b0ff;">One-Liner Setup</h3>
+    <div class="install-code">
+      curl -sL https://github.com/cto22/orx/raw/main/scripts/setup.sh | bash
+    </div>
+  </div>
+</div>
+
+<section id="journal" style="border-bottom: none;">
+  <h2>/// DEVELOPMENT JOURNAL</h2>
+  <div class="grid-2">
+    <div class="card"><h4>Adding 2D Without Breaking 3D</h4><p style="font-size:0.85rem;color:#9090a0;">Kept game.py as launcher only. 2D mode delegates to Game2D class in its own module — zero refactoring of the 3D code.</p></div>
+    <div class="card"><h4>Shared Save File Merging</h4><p style="font-size:0.85rem;color:#9090a0;">Both modes write to .orx_save.json. 2D uses _2d suffixed keys, 3D uses bare keys. Merge preserves both.</p></div>
+    <div class="card"><h4>Emoji Rendering</h4><p style="font-size:0.85rem;color:#9090a0;">pygame doesn't support color emoji fonts natively. Three-tier fallback (Noto → DejaVu → default), white-on-transparent silhouettes.</p></div>
+    <div class="card"><h4>Trap Cooldown</h4><p style="font-size:0.85rem;color:#9090a0;">Trap_timers dict keyed by tile position with 1s cooldown prevents instant-death on contact.</p></div>
+  </div>
+  <p style="text-align:center;margin-top:2rem;"><a href="https://github.com/cto22/orx">View full changelog on GitHub →</a></p>
+</section>
+
+<footer>
+  <p>Orx — The Ascension of the Prime Cy-Orx</p>
+  <p>Developed for Arch Linux — 3099 Intergalactic Edition</p>
+  <p style="margin-top:0.5rem;"><a href="https://github.com/cto22/orx">GitHub</a></p>
+</footer>
+
+</body>
+</html>

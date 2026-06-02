@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=69", "wheel", "pybind11>=2.12"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "orx"
+version = "0.1.0"
+description = "Orx: a performance-first pseudo-3D retro-shooter (Python + C++)."
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "Proprietary" }
+authors = [{ name = "Your Name/Handle" }]
+dependencies = [
+  "pygame-ce>=2.5.0",
+  "pybind11>=2.12",
+]
+
+[project.optional-dependencies]
+dev = [
+  "ruff>=0.6.0",
+]
+
+[project.scripts]
+orx = "orx.main:main"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
