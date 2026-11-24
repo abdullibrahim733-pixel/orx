@@ -125,7 +125,7 @@ orx/
 │       │
 │       ├── cpp/
 │       │   ├── __init__.py
-│       │   └── orx_cpp.*.so        # Pre-compiled pybind11 extension
+│       │   └── raycaster.cpp       # Optional native raycaster (build locally); pure-Python fallback is used by default
 │       │
 │       ├── effects/
 │       │   ├── postprocess.py      # CRT scanlines + vignette overlay
